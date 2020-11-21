@@ -7,7 +7,7 @@ const scanFolder = (path, ext) => {
   for (const file of files) {
     const newPath = `${path}/${file}`;
 
-    if (file.endsWith(`.${ext}`)) {
+    if (fs.lstatSync(newPath).isFile() && file.endsWith(`.${ext}`)) {
       result.push({fileName: file, content: fs.readFileSync(newPath).toString()})
     } 
     if (fs.lstatSync(newPath).isDirectory()){
@@ -25,7 +25,7 @@ const insertIntoTxt = (files, outputPath) => {
     str += `\n ${file.fileName} \n ${file.content} \n`;
   }
 
-  fs.writeFileSync(`${outputPath}`, str);
+  fs.writeFileSync(outputPath, str);
 }
   
 const startPath = process.argv[2];
